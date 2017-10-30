@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import './Box.css'
+import './Board.css'
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import {Cross, Circle} from './Symbols'
+import Symbol from './Symbols';
+import {store} from './index';
 
 
 class Box extends Component {
@@ -12,6 +14,12 @@ class Box extends Component {
         this.cross = 'cross';
         this.cross = 'circle';
         this.onClick = this.onClick.bind(this);
+
+        const store2 = store;
+        const that = this;
+        store.subscribe(() => {
+            that.isFirstPlayer = store2.getState().boardReducer.isFirstPlayer;
+        });
     }
 
     getStyle() {
@@ -36,16 +44,20 @@ class Box extends Component {
         this.setState({
             active: true,
         });
-        this.props.callBackOnClickOnBox();
 
+        const isFirstPlayer = !store.getState().boardReducer.isFirstPlayer;
+        store.dispatch({
+            type: 'TOGGLE_PLAYER',
+            payload: isFirstPlayer,
+        });
     }
 
     getSymbol() {
         if (this.state.active) {
-            if (this.state.isFirstPlayer) {
-                return <Cross/>
+            if (this.isFirstPlayer) {
+                return <Symbol symbol='X'/>
             } else {
-                return <Circle/>
+                return <Symbol symbol='O'/>
             }
         }
     }
@@ -60,20 +72,13 @@ class Box extends Component {
 }
 
 class Row extends Component {
-    constructor(props){
-        super(props);
-    }
-
-    callBackOnClickOnBox(){
-        this.callBackOnClickOnBox();
-    }
 
     render() {
         const noOfCols = 3;
         let boxes = [];
         for (let i = 0; i < noOfCols; i++) {
             boxes.push(<Box key={i} rowIndex={this.props.rowIndex} colIndex={i}
-                            isFirstPlayer={this.props.isFirstPlayer} callBackOnClickOnBox={this.callBackOnClickOnBox}/>)
+                            isFirstPlayer={this.props.isFirstPlayer}/>)
         }
         return (
             <div className='row'>
@@ -91,19 +96,12 @@ export default class Board extends Component {
         this.state = {isFirstPlayer: true};
     }
 
-    togglePlayer(){
-        const isFirstPlayer = !this.state.isFirstPlayer;
-        this.setState({
-            isFirstPlayer
-        });
-    }
-
 
     render() {
         const noOfRows = 3;
         let rows = [];
         for (let i = 0; i < noOfRows; i++) {
-            rows.push(<Row key={i} rowIndex={i} isFirstPlayer={this.state.isFirstPlayer} callBackOnClickOnBox={this.togglePlayer}/>)
+            rows.push(<Row key={i} rowIndex={i} isFirstPlayer={this.state.isFirstPlayer}/>)
         }
         return (
             <div className='container'>

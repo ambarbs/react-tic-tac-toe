@@ -1,6 +1,7 @@
 .symbol {
-    background: white;
-    color: black;
+    /*background: white;*/
+    background-color: #3f60ed;
+    color: #545454;
     font-family: 'Helvetica', 'Arial', sans-serif;
     font-size: 10em;
     /*font-weight: bold;*/
@@ -8,4 +9,8 @@
     width: auto;
     height: 100%;
     /*border-radius: 5px;*/
+}
+
+.circle-color{
+    color: #d3e6e4;
 }
