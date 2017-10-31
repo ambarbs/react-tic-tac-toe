@@ -9,7 +9,8 @@ import {createStore, combineReducers, applyMiddleware} from 'redux';
 import {createLogger} from 'redux-logger';
 
 const boardReducer = (state = {
-    isFirstPlayer: true,
+    isFirstPlayer: false,
+    boardMatrix: [[],[],[]],
 }, action) => {
     switch (action.type) {
         case 'TOGGLE_PLAYER':
@@ -18,6 +19,13 @@ const boardReducer = (state = {
                 isFirstPlayer: action.payload,
             };
             break;
+        case 'UPDATE_BOARD_MATRIX':
+            state = {
+                ...state,
+                boardMatrix: action.payload,
+            };
+            break;
+
     }
     return state;
 }

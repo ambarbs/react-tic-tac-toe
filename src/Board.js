@@ -10,15 +10,19 @@ class Box extends Component {
 
     constructor(props) {
         super(props);
+
         this.state = {active: false};
-        this.cross = 'cross';
-        this.cross = 'circle';
+
         this.onClick = this.onClick.bind(this);
+        this.computerTakeTurn = this.computerTakeTurn.bind(this);
 
         const store2 = store;
         const that = this;
         store.subscribe(() => {
-            that.isFirstPlayer = store2.getState().boardReducer.isFirstPlayer;
+            const boardMatrix = store.getState().boardReducer.boardMatrix;
+            if (boardMatrix[that.props.rowIndex][that.props.colIndex] && !this.state.active) {
+                this.setState({active: true, symbol: boardMatrix[this.props.rowIndex][this.props.colIndex]});
+            }
         });
     }
 
@@ -41,24 +45,60 @@ class Box extends Component {
     }
 
     onClick() {
-        this.setState({
-            active: true,
-        });
-
-        const isFirstPlayer = !store.getState().boardReducer.isFirstPlayer;
+        const toggleIsFirstPlayer = store.getState().boardReducer.isFirstPlayer;
         store.dispatch({
             type: 'TOGGLE_PLAYER',
-            payload: isFirstPlayer,
+            payload: !toggleIsFirstPlayer,
         });
+
+        const boardMatrix = store.getState().boardReducer.boardMatrix;
+        const addSymbolToBoardMatrix = !toggleIsFirstPlayer ? 'x' : 'o';
+        boardMatrix[this.props.rowIndex][this.props.colIndex] = addSymbolToBoardMatrix;
+
+
+        store.dispatch({
+            type: 'UPDATE_BOARD_MATRIX',
+            payload: boardMatrix,
+        });
+
+        this.computerTakeTurn(boardMatrix, toggleIsFirstPlayer);
+    }
+
+    computerTakeTurn(boardMatrix, toggleIsFirstPlayer) {
+        // const {boardReducer} = store.getState();
+        // const boardMatrix = boardReducer.boardMatrix;
+        const addSymbolToBoardMatrix = toggleIsFirstPlayer ? 'x' : 'o';
+
+        if(boardMatrix[1][1] === undefined){
+            boardMatrix[1][1] = addSymbolToBoardMatrix;
+        } else {
+            for (let i = 0; i < boardMatrix.length; i++) {
+
+            }
+        }
+
+        store.dispatch({
+            type: 'UPDATE_BOARD_MATRIX',
+            payload: boardMatrix,
+        });
+
+        store.dispatch({
+            type: 'TOGGLE_PLAYER',
+            payload: toggleIsFirstPlayer,
+        });
+
+
     }
 
     getSymbol() {
         if (this.state.active) {
-            if (this.isFirstPlayer) {
-                return <Symbol symbol='X'/>
-            } else {
-                return <Symbol symbol='O'/>
-            }
+
+            return <Symbol symbol={this.state.symbol}/>;
+            // if (store.getState().boardReducer.isFirstPlayer) {
+            //     return <Symbol symbol='X'/>
+            // } else {
+            //     return <Symbol symbol='O'/>
+            // }
         }
     }
 

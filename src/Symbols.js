@@ -5,7 +5,7 @@ import './Symbols.css'
 
 export default class Symbol extends Component {
     render(){
-        const style = this.props.symbol === 'X' ? 'symbol' : 'symbol circle-color';
+        const style = this.props.symbol === 'x' ? 'symbol' : 'symbol circle-color';
         return(
             <div className={style}>
                 {this.props.symbol}
