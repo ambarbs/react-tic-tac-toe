@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import './Symbols.css'
+import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import '../Styles/Symbols.css'
 
 
 export default class Symbol extends Component {

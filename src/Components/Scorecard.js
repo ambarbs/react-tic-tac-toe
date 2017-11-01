@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import './Box.css'
-import './Board.css'
-import './Scorecard.css'
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import {store} from './index';
+import '../Styles/Box.css';
+import '../Styles/Board.css';
+import '../Styles/Scorecard.css';
+import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import {store} from '../AppStore';
 
 export class Player extends Component {
     constructor(props) {

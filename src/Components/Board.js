@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
-import './Box.css'
-import './Board.css'
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import '../Styles/Box.css'
+import '../Styles/Board.css'
+import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import Symbol from './Symbols';
-import {store} from './index';
-import {findBestMove} from './minimax';
+import {store} from '../AppStore';
+import {findBestMove} from '../minimax';
 
 
 class Box extends Component {

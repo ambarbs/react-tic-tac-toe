@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import './App.css';
+import '../Styles/App.css';
 import Board from './Board';
 import Scorecard from './Scorecard';
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
 
 class App extends Component {
