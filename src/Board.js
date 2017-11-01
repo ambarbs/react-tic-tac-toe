@@ -4,6 +4,7 @@ import './Board.css'
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import Symbol from './Symbols';
 import {store} from './index';
+import {findBestMove} from './minimax';
 
 
 class Box extends Component {
@@ -16,13 +17,12 @@ class Box extends Component {
         this.onClick = this.onClick.bind(this);
         this.computerTakeTurn = this.computerTakeTurn.bind(this);
 
-        const store2 = store;
         const that = this;
         store.subscribe(() => {
             const boardMatrix = store.getState().boardReducer.boardMatrix;
-            if (boardMatrix[that.props.rowIndex][that.props.colIndex] && !this.state.active) {
+            // if (boardMatrix[that.props.rowIndex][that.props.colIndex] && !this.state.active) {
                 this.setState({active: true, symbol: boardMatrix[this.props.rowIndex][this.props.colIndex]});
-            }
+            // }
         });
     }
 
@@ -55,7 +55,7 @@ class Box extends Component {
         const addSymbolToBoardMatrix = !toggleIsFirstPlayer ? 'x' : 'o';
         boardMatrix[this.props.rowIndex][this.props.colIndex] = addSymbolToBoardMatrix;
 
-
+        // update board matrix with human player's move
         store.dispatch({
             type: 'UPDATE_BOARD_MATRIX',
             payload: boardMatrix,
@@ -69,13 +69,13 @@ class Box extends Component {
         // const boardMatrix = boardReducer.boardMatrix;
         const addSymbolToBoardMatrix = toggleIsFirstPlayer ? 'x' : 'o';
 
-        if(boardMatrix[1][1] === undefined){
-            boardMatrix[1][1] = addSymbolToBoardMatrix;
-        } else {
-            for (let i = 0; i < boardMatrix.length; i++) {
+        const bestMove = findBestMove(boardMatrix);
+        console.log(bestMove);
 
-            }
-        }
+        if (bestMove.col === -1 || bestMove.row === -1)
+            return;
+
+        boardMatrix[bestMove.row][bestMove.col] = addSymbolToBoardMatrix;
 
         store.dispatch({
             type: 'UPDATE_BOARD_MATRIX',
@@ -87,18 +87,16 @@ class Box extends Component {
             payload: toggleIsFirstPlayer,
         });
 
+        store.dispatch({
+            type: 'UPDATE_MINIMAX',
+            payload: bestMove,
+        });
 
     }
 
     getSymbol() {
         if (this.state.active) {
-
             return <Symbol symbol={this.state.symbol}/>;
-            // if (store.getState().boardReducer.isFirstPlayer) {
-            //     return <Symbol symbol='X'/>
-            // } else {
-            //     return <Symbol symbol='O'/>
-            // }
         }
     }
 
