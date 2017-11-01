@@ -87,10 +87,10 @@ class Box extends Component {
             payload: toggleIsFirstPlayer,
         });
 
-        store.dispatch({
-            type: 'UPDATE_MINIMAX',
-            payload: bestMove,
-        });
+        // store.dispatch({
+        //     type: 'UPDATE_MINIMAX',
+        //     payload: bestMove,
+        // });
 
     }
 

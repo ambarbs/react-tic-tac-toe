@@ -1,13 +1,14 @@
 import React, {Component} from 'react';
 import './Box.css'
 import './Board.css'
+import './Scorecard.css'
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import {store} from './index';
 
 export class Player extends Component {
-    constructor() {
-        super();
-        this.state = {playerName: 'Player name', showTextField: false};
+    constructor(props) {
+        super(props);
+        this.state = {playerName: this.props.playerName || 'Human', showTextField: false};
         this.makePlayerNameEditable = this.makePlayerNameEditable.bind(this);
         this.handleClickOutside = this.handleClickOutside.bind(this);
     }
@@ -27,7 +28,7 @@ export class Player extends Component {
     render() {
         return (
             <div onDoubleClick={this.makePlayerNameEditable}>
-                <div>
+                <div className='player'>
                     {!this.state.showTextField && this.state.playerName}
                     {this.state.showTextField &&
                     <input type="text" value={this.state.playerName} onblur={this.handleClickOutside}/>}
@@ -58,7 +59,7 @@ export default class Scorecard extends Component {
                     Restart
                 </button>
                 <Player/>
-                <Player/>
+                <Player playerName='Computer'/>
             </div>
 
         )
