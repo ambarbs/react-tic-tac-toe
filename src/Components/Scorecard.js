@@ -4,6 +4,10 @@ import '../Styles/Board.css';
 import '../Styles/Scorecard.css';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import {store} from '../AppStore';
+import IconButton from 'material-ui/IconButton';
+import DeleteIcon from 'material-ui-icons/Delete';
+import Button from 'material-ui/Button';
+import Replay from 'material-ui-icons/Replay';
 
 export class Player extends Component {
     constructor(props) {
@@ -61,7 +65,6 @@ export default class Scorecard extends Component {
             type: 'UPDATE_BOARD_MATRIX',
             payload: [[], [], []],
         });
-        this.setState({hasWon: false})
     }
 
     render() {
@@ -72,10 +75,11 @@ export default class Scorecard extends Component {
                         <Player playerSymbol='x'/>
                         <Player playerName='Computer' playerSymbol='o'/>
                     </div>
-                    {this.state.hasWon && <div className='col-2'>
-                        <button className='btn' onClick={this.restartGame}>
-                            Restart
-                        </button>
+
+                    { <div className='col-2'>
+                        <Button fab color="default" aria-label="add" onClick={this.restartGame}>
+                            <Replay />
+                        </Button>
                     </div>}
                 </div>
             </div>
