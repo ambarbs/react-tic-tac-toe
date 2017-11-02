@@ -5,8 +5,10 @@ const boardReducer = (state = {
     isFirstPlayer: false,
     boardMatrix: [[], [], []],
     minimax: {row: 0, col: 0},
-    winCount: {x: 0, o: 0},
+    winCount: {x: 0, o: 0, d: 0},
     isDifficult: false,
+    showEndGameAlert: false,
+
 }, action) => {
     switch (action.type) {
         default:
@@ -38,6 +40,12 @@ const boardReducer = (state = {
             state = {
                 ...state,
                 isDifficult: action.payload,
+            };
+            break;
+        case 'SHOW_END_GAME_ALERT':
+            state = {
+                ...state,
+                showEndGameAlert: action.payload,
             };
             break;
     }

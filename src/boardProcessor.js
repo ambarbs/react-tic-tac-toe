@@ -168,16 +168,18 @@ export function findBestMove(board) {
     return bestMove;
 }
 
-
+// return a random available index
 export function findEasyMove(board) {
+    const availableBoxes = [];
     for (let i = 0; i < 3; i++) {
         for (let j = 0; j < 3; j++) {
-            if(board[i][j] === undefined){
-                return {row: i, col: j};
+            if (board[i][j] === undefined) {
+                availableBoxes.push({row: i, col: j});
             }
         }
     }
-    return {row: -1, col: -1};
+    return availableBoxes.length > 0 ? availableBoxes[Math.floor(Math.random() * availableBoxes.length)]
+        : {row: -1, col: -1};
 }
 
 export function isWin(board, currentSymbol) {
@@ -218,4 +220,18 @@ export function isWin(board, currentSymbol) {
     }
 
     return isWin;
+}
+
+export function isDraw(board, currentSymbol) {
+    for (let i = 0; i < 3; i++) {
+        if (board[i].length < 3) {
+            return false;
+        }
+        for (let j = 0; j < 3; j++) {
+            if (board[i][j] === undefined) {
+                return false
+            }
+        }
+    }
+    return true;
 }

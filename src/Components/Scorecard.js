@@ -53,13 +53,6 @@ export default class Scorecard extends Component {
         this.state = {hasWon: false, isDifficult: false};
         this.restartGame = this.restartGame.bind(this);
         this.onToggle = this.onToggle.bind(this);
-        // store.subscribe(() => {
-        //     const {winCount, isDifficult} = store.getState().boardReducer;
-        //     this.setState({
-        //         hasWon: Object.values(winCount).some(count => count > 0),
-        //         isDifficult,
-        //     });
-        // });
     }
 
     restartGame() {
@@ -69,6 +62,10 @@ export default class Scorecard extends Component {
         });
         store.dispatch({
             type: 'TOGGLE_PLAYER',
+            payload: false,
+        });
+        store.dispatch({
+            type: 'SHOW_END_GAME_ALERT',
             payload: false,
         });
     }
@@ -82,18 +79,6 @@ export default class Scorecard extends Component {
         });
     }
 
-    get styles() {
-        return {
-            toggle: {
-                marginBottom: 16,
-                labelStyle: {
-                    color: '#2CB5E8'
-                }
-            },
-
-        };
-    }
-
     render() {
         const switchLabel = this.state.isDifficult ? 'Hard' : 'Easy';
         return (
@@ -105,17 +90,15 @@ export default class Scorecard extends Component {
                 </div>
                 <div className='row'>
                     <div className='col-8'>
-                            <div className='row player'>
-                                <label className='col-8 scorecard-switch-label'>{switchLabel}</label>
-                                <div className='col-4'>
-                                    <Switch
-                                        // className='col-4'
-                                        onClick={this.onToggle}
-                                        checked={this.state.difficultyIsEasy}
-                                        // labelStyle={this.styles.toggle.labelStyle}
-                                    />
-                                </div>
+                        <div className='row player'>
+                            <label className='col-8 scorecard-switch-label'>{switchLabel}</label>
+                            <div className='col-4'>
+                                <Switch
+                                    onClick={this.onToggle}
+                                    checked={this.state.difficultyIsEasy}
+                                />
                             </div>
+                        </div>
 
                     </div>
 
@@ -124,6 +107,7 @@ export default class Scorecard extends Component {
                 <div>
                     <Player playerSymbol='x'/>
                     <Player playerName='Computer' playerSymbol='o'/>
+                    <Player playerName='Draw' playerSymbol='d'/>
                 </div>
             </div>
 

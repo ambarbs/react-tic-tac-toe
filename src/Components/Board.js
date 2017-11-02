@@ -4,14 +4,15 @@ import '../Styles/Board.css'
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import Symbol from './Symbols';
 import {store} from '../AppStore';
-import {findBestMove, findEasyMove, isWin} from '../boardProcessor';
+import EndGameAlertDialog from './EndGameAlertDialog';
+import {findBestMove, findEasyMove, isWin, isDraw} from '../boardProcessor';
 
 class Box extends Component {
 
     constructor(props) {
         super(props);
 
-        this.state = {active: false};
+        this.state = {active: false, showEndGameAlert: false};
 
         this.onClick = this.onClick.bind(this);
         store.subscribe(() => {
@@ -90,13 +91,24 @@ class Box extends Component {
         //     payload: bestMove,
         // });
 
-       this.updateWinCounter(boardMatrix, addSymbolToBoardMatrix);
+        this.updateWinCounter(boardMatrix, addSymbolToBoardMatrix);
     }
 
-    updateWinCounter(boardMatrix ,symbol){
+    updateWinCounter(boardMatrix, symbol) {
+        const {winCount} = store.getState().boardReducer;
+        let update =false;
         if (isWin(boardMatrix, symbol)) {
-            const winCount = store.getState().boardReducer.winCount;
+            update = true;
+        } else if (isDraw(boardMatrix)) {
+            symbol = 'd';
+            update = true;
+        }
+        if(update) {
             winCount[symbol] = winCount[symbol] += 1;
+            store.dispatch({
+                type: 'SHOW_END_GAME_ALERT',
+                payload: symbol,
+            });
             store.dispatch({
                 type: 'UPDATE_WIN_COUNT',
                 payload: winCount,
@@ -142,6 +154,10 @@ export default class Board extends Component {
     constructor(props) {
         super(props);
         this.state = {isFirstPlayer: true};
+        store.subscribe(() => {
+            const {showEndGameAlert} = store.getState().boardReducer;
+            this.setState({showEndGameAlert});
+        });
     }
 
 
@@ -154,6 +170,7 @@ export default class Board extends Component {
         return (
             <div className='container'>
                 {rows}
+                {this.state.showEndGameAlert && <EndGameAlertDialog symbol={this.state.showEndGameAlert}/>}
             </div>
         )
     }
