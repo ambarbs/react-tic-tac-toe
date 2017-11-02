@@ -41,7 +41,7 @@ const boardReducer = (state = {
 export const store = createStore(
     combineReducers({boardReducer}),
     {},
-    // applyMiddleware(createLogger())
+    applyMiddleware(createLogger())
 );
 
 store.subscribe(() => {
