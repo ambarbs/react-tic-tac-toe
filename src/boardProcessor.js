@@ -162,8 +162,8 @@ export function findBestMove(board) {
         }
     }
 
-    console.log("The value of the best Move is : d",
-        bestVal);
+    // console.log("The value of the best Move is : d",
+    //     bestVal);
 
     return bestMove;
 }
@@ -199,18 +199,11 @@ export function isWin(board, currentSymbol) {
     for (let i = 0; i < 3; i++) {
         isWin = true;
         for (let j = 0; j < 3; j++) {
-            console.log(j);
-            console.log(i);
-            console.log(board[j][i]);
-            console.log('=================');
-            console.log('=================');
             isWin = isWin && (board[j][i] === currentSymbol);
         }
         if (isWin)
             return isWin;
     }
-
-    console.log(isWin);
 
     return isWin;
 }

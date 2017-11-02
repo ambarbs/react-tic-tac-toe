@@ -2,13 +2,14 @@
     /*background: white;*/
     background-color: #66a7c4;
     color: #545454;
-    font-family: 'Helvetica', 'Arial', sans-serif;
+    /*font-family: 'Helvetica', 'Arial', sans-serif;*/
     font-size: 15vh;
     /*font-weight: bold;*/
     text-align: center;
     width: auto;
     height: 100%;
     /*border-radius: 5px;*/
+    font-family: "Comic Sans MS";
 }
 
 .circle-color{

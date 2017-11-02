@@ -4,8 +4,6 @@ import '../Styles/Board.css';
 import '../Styles/Scorecard.css';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import {store} from '../AppStore';
-import IconButton from 'material-ui/IconButton';
-import DeleteIcon from 'material-ui-icons/Delete';
 import Button from 'material-ui/Button';
 import Replay from 'material-ui-icons/Replay';
 
@@ -64,6 +62,10 @@ export default class Scorecard extends Component {
         store.dispatch({
             type: 'UPDATE_BOARD_MATRIX',
             payload: [[], [], []],
+        });
+        store.dispatch({
+            type: 'TOGGLE_PLAYER',
+            payload: false,
         });
     }
 

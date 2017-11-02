@@ -38,23 +38,28 @@ class Box extends Component {
     }
 
     onClick() {
-        const toggleIsFirstPlayer = store.getState().boardReducer.isFirstPlayer;
-        store.dispatch({
-            type: 'TOGGLE_PLAYER',
-            payload: !toggleIsFirstPlayer,
-        });
 
-        const boardMatrix = store.getState().boardReducer.boardMatrix;
-        const addSymbolToBoardMatrix = !toggleIsFirstPlayer ? 'x' : 'o';
-        boardMatrix[this.props.rowIndex][this.props.colIndex] = addSymbolToBoardMatrix;
+        const {boardMatrix} = store.getState().boardReducer;
+        if(boardMatrix[this.props.rowIndex][this.props.colIndex] === undefined) {
+            const toggleIsFirstPlayer = store.getState().boardReducer.isFirstPlayer;
+            store.dispatch({
+                type: 'TOGGLE_PLAYER',
+                payload: !toggleIsFirstPlayer,
+            });
 
-        // update board matrix with human player's move
-        store.dispatch({
-            type: 'UPDATE_BOARD_MATRIX',
-            payload: boardMatrix,
-        });
+            const addSymbolToBoardMatrix = !toggleIsFirstPlayer ? 'x' : 'o';
+            boardMatrix[this.props.rowIndex][this.props.colIndex] = addSymbolToBoardMatrix;
 
-        setTimeout(() => {Box.computerTakeTurn(boardMatrix, toggleIsFirstPlayer)}, 300);
+            // update board matrix with human player's move
+            store.dispatch({
+                type: 'UPDATE_BOARD_MATRIX',
+                payload: boardMatrix,
+            });
+
+            setTimeout(() => {
+                Box.computerTakeTurn(boardMatrix, toggleIsFirstPlayer)
+            }, 200);
+        }
     }
 
     static computerTakeTurn(boardMatrix, toggleIsFirstPlayer) {
