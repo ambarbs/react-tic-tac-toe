@@ -11,6 +11,11 @@ export class Player extends Component {
         this.state = {playerName: this.props.playerName || 'Human', showTextField: false};
         this.makePlayerNameEditable = this.makePlayerNameEditable.bind(this);
         this.handleClickOutside = this.handleClickOutside.bind(this);
+
+        store.subscribe(() => {
+            const winCount = store.getState().boardReducer.winCount;
+            this.setState({score: winCount[this.props.playerSymbol]});
+        });
     }
 
     componentDidMount() {
@@ -27,9 +32,10 @@ export class Player extends Component {
 
     render() {
         return (
-            <div onDoubleClick={this.makePlayerNameEditable}>
-                <div className='player'>
-                    {!this.state.showTextField && this.state.playerName}
+            <div className='container' onDoubleClick={this.makePlayerNameEditable}>
+                <div className='row player'>
+                    <div className='col-8'>{!this.state.showTextField && `${this.state.playerName}: `} </div>
+                    <div className='col-4'>{this.state.score || 0}</div>
                     {this.state.showTextField &&
                     <input type="text" value={this.state.playerName} onblur={this.handleClickOutside}/>}
                 </div>
@@ -42,7 +48,12 @@ export class Player extends Component {
 export default class Scorecard extends Component {
     constructor() {
         super();
+        this.state = {hasWon: false};
         this.restartGame = this.restartGame.bind(this);
+        store.subscribe(() => {
+            const winCount = store.getState().boardReducer.winCount;
+            this.setState({hasWon:Object.values(winCount).some(count => count > 0)});
+        });
     }
 
     restartGame() {
@@ -50,16 +61,23 @@ export default class Scorecard extends Component {
             type: 'UPDATE_BOARD_MATRIX',
             payload: [[], [], []],
         });
+        this.setState({hasWon: false})
     }
 
     render() {
         return (
-            <div>
-                <button className='btn' onClick={this.restartGame}>
-                    Restart
-                </button>
-                <Player/>
-                <Player playerName='Computer'/>
+            <div className='container'>
+                <div className='row'>
+                    <div className='col-10'>
+                        <Player playerSymbol='x'/>
+                        <Player playerName='Computer' playerSymbol='o'/>
+                    </div>
+                    {this.state.hasWon && <div className='col-2'>
+                        <button className='btn' onClick={this.restartGame}>
+                            Restart
+                        </button>
+                    </div>}
+                </div>
             </div>
 
         )

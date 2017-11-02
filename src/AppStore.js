@@ -4,7 +4,8 @@ import {createLogger} from 'redux-logger';
 const boardReducer = (state = {
     isFirstPlayer: false,
     boardMatrix: [[], [], []],
-    minimax: {row: 0, col: 0}
+    minimax: {row: 0, col: 0},
+    winCount: {x: 0, o: 0}
 }, action) => {
     switch (action.type) {
         default:
@@ -26,6 +27,12 @@ const boardReducer = (state = {
                 minimax: action.payload,
             };
             break;
+        case 'UPDATE_WIN_COUNT':
+            state = {
+                ...state,
+                winCount: action.payload,
+            };
+            break;
 
     }
     return state;
@@ -34,7 +41,7 @@ const boardReducer = (state = {
 export const store = createStore(
     combineReducers({boardReducer}),
     {},
-    applyMiddleware(createLogger())
+    // applyMiddleware(createLogger())
 );
 
 store.subscribe(() => {

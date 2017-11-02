@@ -8,11 +8,17 @@ import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 class App extends Component {
     render() {
         return (
-            <div className="App board">
+            <div className="board-color">
                 <div className='container'>
                     <div className='row'>
                         <div className='col-8'>
-                            <div className='blank-div'/>
+                            <div className='blank-div'>
+                                {/*<div className='offset-8'>*/}
+                                    {/*<button className='btn' onClick={this.restartGame}>*/}
+                                        {/*Restart*/}
+                                    {/*</button>*/}
+                                {/*</div>*/}
+                            </div>
                             <Board/>
                             <div className='blank-div'/>
                         </div>

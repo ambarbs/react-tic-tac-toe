@@ -167,3 +167,50 @@ export function findBestMove(board) {
 
     return bestMove;
 }
+
+export function isWin(board, currentSymbol) {
+    let isWin = true;
+    // Diagonal check: top-left to bottom-right
+    for (let i = 0; i < 3; i++) {
+        isWin = isWin && (board[i][i] === currentSymbol);
+    }
+    if (isWin)
+        return isWin;
+
+    isWin = true;
+    // Diagonal check: top-right to bottom-left
+    for (let i = 0, j = 2; i < 3; i++, j--) {
+        isWin = isWin && (board[i][j] === currentSymbol);
+    }
+    if (isWin)
+        return isWin;
+
+    // row major check
+    for (let i = 0; i < 3; i++) {
+        isWin = true;
+        for (let j = 0; j < 3; j++) {
+            isWin = isWin && (board[i][j] === currentSymbol);
+        }
+        if (isWin)
+            return isWin;
+    }
+
+    //column major check
+    for (let i = 0; i < 3; i++) {
+        isWin = true;
+        for (let j = 0; j < 3; j++) {
+            console.log(j);
+            console.log(i);
+            console.log(board[j][i]);
+            console.log('=================');
+            console.log('=================');
+            isWin = isWin && (board[j][i] === currentSymbol);
+        }
+        if (isWin)
+            return isWin;
+    }
+
+    console.log(isWin);
+
+    return isWin;
+}

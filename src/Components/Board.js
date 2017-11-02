@@ -4,9 +4,7 @@ import '../Styles/Board.css'
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import Symbol from './Symbols';
 import {store} from '../AppStore';
-import {findBestMove} from '../minimax';
-
-
+import {findBestMove, isWin} from '../boardProcessor';
 class Box extends Component {
 
     constructor(props) {
@@ -15,14 +13,9 @@ class Box extends Component {
         this.state = {active: false};
 
         this.onClick = this.onClick.bind(this);
-        this.computerTakeTurn = this.computerTakeTurn.bind(this);
-
-        const that = this;
         store.subscribe(() => {
             const boardMatrix = store.getState().boardReducer.boardMatrix;
-            // if (boardMatrix[that.props.rowIndex][that.props.colIndex] && !this.state.active) {
                 this.setState({active: true, symbol: boardMatrix[this.props.rowIndex][this.props.colIndex]});
-            // }
         });
     }
 
@@ -61,16 +54,16 @@ class Box extends Component {
             payload: boardMatrix,
         });
 
-        this.computerTakeTurn(boardMatrix, toggleIsFirstPlayer);
+        setTimeout(() => {Box.computerTakeTurn(boardMatrix, toggleIsFirstPlayer)}, 300);
     }
 
-    computerTakeTurn(boardMatrix, toggleIsFirstPlayer) {
+    static computerTakeTurn(boardMatrix, toggleIsFirstPlayer) {
         // const {boardReducer} = store.getState();
         // const boardMatrix = boardReducer.boardMatrix;
         const addSymbolToBoardMatrix = toggleIsFirstPlayer ? 'x' : 'o';
 
+
         const bestMove = findBestMove(boardMatrix);
-        console.log(bestMove);
 
         if (bestMove.col === -1 || bestMove.row === -1)
             return;
@@ -92,6 +85,14 @@ class Box extends Component {
         //     payload: bestMove,
         // });
 
+        if(isWin(boardMatrix, addSymbolToBoardMatrix)){
+            const winCount = store.getState().boardReducer.winCount;
+            winCount[addSymbolToBoardMatrix] = winCount[addSymbolToBoardMatrix]+=1;
+            store.dispatch({
+                type: 'UPDATE_WIN_COUNT',
+                payload: winCount,
+            });
+        }
     }
 
     getSymbol() {
