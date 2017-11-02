@@ -22,8 +22,7 @@ class App extends Component {
                             <Board/>
                             <div className='blank-div'/>
                         </div>
-                        <div className='col-1 vertical-divider'/>
-                        <div className='col-3'>
+                        <div className='offset-1 col-3'>
                             <div className='blank-div'/>
                             <Scorecard/>
                             <div className='blank-div'/>

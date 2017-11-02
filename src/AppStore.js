@@ -5,7 +5,8 @@ const boardReducer = (state = {
     isFirstPlayer: false,
     boardMatrix: [[], [], []],
     minimax: {row: 0, col: 0},
-    winCount: {x: 0, o: 0}
+    winCount: {x: 0, o: 0},
+    isDifficult: false,
 }, action) => {
     switch (action.type) {
         default:
@@ -33,7 +34,12 @@ const boardReducer = (state = {
                 winCount: action.payload,
             };
             break;
-
+        case 'TOGGLE_DIFFICULTY':
+            state = {
+                ...state,
+                isDifficult: action.payload,
+            };
+            break;
     }
     return state;
 }

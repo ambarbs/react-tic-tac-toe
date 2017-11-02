@@ -4,7 +4,8 @@ import '../Styles/Board.css'
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import Symbol from './Symbols';
 import {store} from '../AppStore';
-import {findBestMove, isWin} from '../boardProcessor';
+import {findBestMove, findEasyMove, isWin} from '../boardProcessor';
+
 class Box extends Component {
 
     constructor(props) {
@@ -15,7 +16,7 @@ class Box extends Component {
         this.onClick = this.onClick.bind(this);
         store.subscribe(() => {
             const boardMatrix = store.getState().boardReducer.boardMatrix;
-                this.setState({active: true, symbol: boardMatrix[this.props.rowIndex][this.props.colIndex]});
+            this.setState({active: true, symbol: boardMatrix[this.props.rowIndex][this.props.colIndex]});
         });
     }
 
@@ -40,15 +41,16 @@ class Box extends Component {
     onClick() {
 
         const {boardMatrix} = store.getState().boardReducer;
-        if(boardMatrix[this.props.rowIndex][this.props.colIndex] === undefined) {
+        if (boardMatrix[this.props.rowIndex][this.props.colIndex] === undefined) {
             const toggleIsFirstPlayer = store.getState().boardReducer.isFirstPlayer;
+            const addSymbolToBoardMatrix = !toggleIsFirstPlayer ? 'x' : 'o';
             store.dispatch({
                 type: 'TOGGLE_PLAYER',
                 payload: !toggleIsFirstPlayer,
             });
 
-            const addSymbolToBoardMatrix = !toggleIsFirstPlayer ? 'x' : 'o';
             boardMatrix[this.props.rowIndex][this.props.colIndex] = addSymbolToBoardMatrix;
+            this.updateWinCounter(boardMatrix, addSymbolToBoardMatrix);
 
             // update board matrix with human player's move
             store.dispatch({
@@ -57,23 +59,21 @@ class Box extends Component {
             });
 
             setTimeout(() => {
-                Box.computerTakeTurn(boardMatrix, toggleIsFirstPlayer)
+                this.computerTakeTurn(boardMatrix, toggleIsFirstPlayer)
             }, 200);
         }
     }
 
-    static computerTakeTurn(boardMatrix, toggleIsFirstPlayer) {
-        // const {boardReducer} = store.getState();
-        // const boardMatrix = boardReducer.boardMatrix;
+    computerTakeTurn(boardMatrix, toggleIsFirstPlayer) {
         const addSymbolToBoardMatrix = toggleIsFirstPlayer ? 'x' : 'o';
 
+        const moveFunction = store.getState().boardReducer.isDifficult ? findBestMove : findEasyMove;
+        const move = moveFunction(boardMatrix);
 
-        const bestMove = findBestMove(boardMatrix);
-
-        if (bestMove.col === -1 || bestMove.row === -1)
+        if (move.col === -1 || move.row === -1)
             return;
 
-        boardMatrix[bestMove.row][bestMove.col] = addSymbolToBoardMatrix;
+        boardMatrix[move.row][move.col] = addSymbolToBoardMatrix;
 
         store.dispatch({
             type: 'UPDATE_BOARD_MATRIX',
@@ -90,9 +90,13 @@ class Box extends Component {
         //     payload: bestMove,
         // });
 
-        if(isWin(boardMatrix, addSymbolToBoardMatrix)){
+       this.updateWinCounter(boardMatrix, addSymbolToBoardMatrix);
+    }
+
+    updateWinCounter(boardMatrix ,symbol){
+        if (isWin(boardMatrix, symbol)) {
             const winCount = store.getState().boardReducer.winCount;
-            winCount[addSymbolToBoardMatrix] = winCount[addSymbolToBoardMatrix]+=1;
+            winCount[symbol] = winCount[symbol] += 1;
             store.dispatch({
                 type: 'UPDATE_WIN_COUNT',
                 payload: winCount,

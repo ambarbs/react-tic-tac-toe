@@ -168,6 +168,18 @@ export function findBestMove(board) {
     return bestMove;
 }
 
+
+export function findEasyMove(board) {
+    for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+            if(board[i][j] === undefined){
+                return {row: i, col: j};
+            }
+        }
+    }
+    return {row: -1, col: -1};
+}
+
 export function isWin(board, currentSymbol) {
     let isWin = true;
     // Diagonal check: top-left to bottom-right
