@@ -27,17 +27,17 @@ export default class EndGameAlertDialog extends Component {
         return [
             `I was just playing you. Time to go home? ;-)`,
             `That was like a walk in the park...`,
-            `You can definitely do better this`,
+            `You can definitely do better than this!`,
             `Switch to 'easy'.. LOL`,
         ];
     }
 
     static get humanWinTexts() {
         return [
-            `I was just warming up...`,
-            `Haven't played for years. Soon I will be unstoppable!`,
-            `You are good!`,
-            `That was brutal!`,
+            `I was just warming up...One more?`,
+            `Haven't played for years. Soon I will be unstoppable! Play again?`,
+            `You are good! Once more?`,
+            `That was brutal! I can beat you. Another?`,
         ];
     }
 
@@ -90,7 +90,6 @@ export default class EndGameAlertDialog extends Component {
 
 
     render() {
-
         return (
             <div>
                 <Dialog
@@ -110,7 +109,7 @@ export default class EndGameAlertDialog extends Component {
                             Later
                         </Button>
                         <Button onClick={this.handleRequestClose} color="primary">
-                            Sure!
+                            Again
                         </Button>
                     </DialogActions>
                 </Dialog>

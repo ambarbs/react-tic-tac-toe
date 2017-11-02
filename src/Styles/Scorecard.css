@@ -4,8 +4,13 @@
     margin-bottom: 10px;
     font-size: large;
     font-weight: bold;
+    margin-bottom: 14vh;
 }
 
 .scorecard-switch-label{
     margin-top: 10px;
+}
+
+.reset-button{
+    margin-bottom: 14vh;
 }

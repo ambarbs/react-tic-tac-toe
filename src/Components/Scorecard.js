@@ -83,7 +83,7 @@ export default class Scorecard extends Component {
         const switchLabel = this.state.isDifficult ? 'Hard' : 'Easy';
         return (
             <div className='container'>
-                <div className='row'>
+                <div className='row reset-button'>
                     <Button dense color="default" aria-label="add" onClick={this.restartGame}>
                         <Replay/>
                     </Button>
