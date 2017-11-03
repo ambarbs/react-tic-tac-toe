@@ -38,3 +38,10 @@
 .vertical-divider {
     border-right: 3px solid;
 }
+
+@media only screen and (max-width: 360px) {
+    .blank-div {
+        height: 6vh;
+    }
+}
+

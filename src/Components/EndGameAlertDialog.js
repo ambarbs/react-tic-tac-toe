@@ -61,14 +61,11 @@ export default class EndGameAlertDialog extends Component {
         switch (this.props.symbol) {
             case 'x':
                 return 'Congrats!';
-                break;
             case 'o':
                 return 'It was me this time .. !';
-                break;
             default:
             case 'd':
                 return 'I hate draws!!';
-                break;
         }
     }
 
@@ -76,14 +73,11 @@ export default class EndGameAlertDialog extends Component {
         switch (this.props.symbol) {
             case 'x':
                 return EndGameAlertDialog.getRandomTexts(EndGameAlertDialog.humanWinTexts);
-                break;
             case 'o':
                 return EndGameAlertDialog.getRandomTexts(EndGameAlertDialog.computerWinTexts);
-                break;
             default:
             case 'd':
                 return `Let's try again?`;
-                break;
         }
     }
 

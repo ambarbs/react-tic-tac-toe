@@ -11,21 +11,15 @@ class App extends Component {
             <div className="board-color">
                 <div className='container'>
                     <div className='row'>
-                        <div className='col-8'>
-                            <div className='blank-div'>
-                                {/*<div className='offset-8'>*/}
-                                    {/*<button className='btn' onClick={this.restartGame}>*/}
-                                        {/*Restart*/}
-                                    {/*</button>*/}
-                                {/*</div>*/}
-                            </div>
+                        <div className='col-lg-8'>
+                            <div className='blank-div'/>
                             <Board/>
                             <div className='blank-div'/>
                         </div>
-                        <div className='offset-1 col-3'>
-                            <div className='blank-div'/>
+                        <div className='offset-lg-1 col-lg-3'>
+                            <div className='d-none d-sm-block blank-div'/>
                             <Scorecard/>
-                            <div className='blank-div'/>
+                            <div className='d-none d-sm-block d-xs-none blank-div'/>
                         </div>
                     </div>
                 </div>
