@@ -2,11 +2,12 @@ import React, {Component} from 'react';
 import '../Styles/Box.css';
 import '../Styles/Board.css';
 import '../Styles/Scorecard.css';
+import '../Styles/DifficultyRadioButtonsGroup.css';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import {store} from '../AppStore';
 import Button from 'material-ui/Button';
 import Replay from 'material-ui-icons/Replay';
-import Switch from 'material-ui/Switch';
+import DifficultyRadioButtonsGroup from './DifficultyRadioButtonsGroup';
 
 export class Player extends Component {
     constructor(props) {
@@ -41,8 +42,6 @@ export class Player extends Component {
                 {this.state.showTextField &&
                 <input type="text" value={this.state.playerName} onblur={this.handleClickOutside}/>}
             </div>
-            // </div>
-
         )
     }
 }
@@ -50,7 +49,7 @@ export class Player extends Component {
 export default class Scorecard extends Component {
     constructor() {
         super();
-        this.state = {hasWon: false, isDifficult: false};
+        this.state = {hasWon: false, difficultyLevel: false};
         this.restartGame = this.restartGame.bind(this);
         this.onToggle = this.onToggle.bind(this);
     }
@@ -71,8 +70,8 @@ export default class Scorecard extends Component {
     }
 
     onToggle() {
-        const nextToggleValue = !this.state.isDifficult;
-        this.setState({isDifficult: nextToggleValue});
+        const nextToggleValue = !this.state.difficultyLevel;
+        this.setState({difficultyLevel: nextToggleValue});
         store.dispatch({
             type: 'TOGGLE_DIFFICULTY',
             payload: nextToggleValue,
@@ -80,7 +79,6 @@ export default class Scorecard extends Component {
     }
 
     render() {
-        const switchLabel = this.state.isDifficult ? 'Hard' : 'Easy';
         return (
             <div className='container'>
                 <div className='row reset-button'>
@@ -88,22 +86,7 @@ export default class Scorecard extends Component {
                         <Replay/>
                     </Button>
                 </div>
-                <div className='row'>
-                    <div className='col-8'>
-                        <div className='row player'>
-                            <label className='col-8 scorecard-switch-label'>{switchLabel}</label>
-                            <div className='col-4'>
-                                <Switch
-                                    onClick={this.onToggle}
-                                    checked={this.state.difficultyIsEasy}
-                                />
-                            </div>
-                        </div>
-
-                    </div>
-
-
-                </div>
+                <DifficultyRadioButtonsGroup/>
                 <div>
                     <Player playerSymbol='x'/>
                     <Player playerName='Computer' playerSymbol='o'/>

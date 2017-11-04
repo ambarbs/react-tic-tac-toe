@@ -68,7 +68,22 @@ class Box extends Component {
     computerTakeTurn(boardMatrix, toggleIsFirstPlayer) {
         const addSymbolToBoardMatrix = toggleIsFirstPlayer ? 'x' : 'o';
 
-        const moveFunction = store.getState().boardReducer.isDifficult ? findBestMove : findEasyMove;
+        const {difficultyLevel} = store.getState().boardReducer;
+
+        // Difficulty level = 'Easy'; by default
+        let moveFunction = findEasyMove;
+        if (difficultyLevel === 'Medium') {
+            // if 'Medium' then choose a random difficulty from 'Easy' and 'Hard'
+            if (Math.random() < 0.5) {
+                moveFunction = findBestMove;
+            } else {
+                moveFunction = findEasyMove;
+            }
+            // 'Hard' difficulty
+        } else if (difficultyLevel === 'Hard') {
+            moveFunction = findBestMove;
+        }
+        console.log(moveFunction.name)
         const move = moveFunction(boardMatrix);
 
         if (move.col === -1 || move.row === -1)
@@ -96,14 +111,14 @@ class Box extends Component {
 
     updateWinCounter(boardMatrix, symbol) {
         const {winCount} = store.getState().boardReducer;
-        let update =false;
+        let update = false;
         if (isWin(boardMatrix, symbol)) {
             update = true;
         } else if (isDraw(boardMatrix)) {
             symbol = 'd';
             update = true;
         }
-        if(update) {
+        if (update) {
             winCount[symbol] = winCount[symbol] += 1;
             store.dispatch({
                 type: 'SHOW_END_GAME_ALERT',

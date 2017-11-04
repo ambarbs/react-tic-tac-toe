@@ -6,7 +6,7 @@ const boardReducer = (state = {
     boardMatrix: [[], [], []],
     minimax: {row: 0, col: 0},
     winCount: {x: 0, o: 0, d: 0},
-    isDifficult: false,
+    difficultyLevel: 'Easy',
     showEndGameAlert: false,
 
 }, action) => {
@@ -39,7 +39,7 @@ const boardReducer = (state = {
         case 'TOGGLE_DIFFICULTY':
             state = {
                 ...state,
-                isDifficult: action.payload,
+                difficultyLevel: action.payload,
             };
             break;
         case 'SHOW_END_GAME_ALERT':

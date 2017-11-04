@@ -1,0 +1,13 @@
+.radio-group-row{
+    flex-direction: row !important;
+}
+
+.radio-group-margin-top{
+    margin-top: -1vh;
+}
+
+@media only screen and (max-width: 360px) {
+    .radio-group-margin-top{
+        margin-top: -2vh;
+    }
+}

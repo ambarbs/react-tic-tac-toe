@@ -16,10 +16,13 @@ class App extends Component {
                             <Board/>
                             <div className='blank-div'/>
                         </div>
-                        <div className='offset-lg-1 col-lg-3'>
-                            <div className='d-none d-sm-block blank-div'/>
-                            <Scorecard/>
-                            <div className='d-none d-sm-block d-xs-none blank-div'/>
+                        <div className='col-lg-4'>
+                            <div className='offset-lg-1 col-lg-11'>
+
+                                <div className='blank-div'/>
+                                <Scorecard/>
+                                <div className='blank-div'/>
+                            </div>
                         </div>
                     </div>
                 </div>
