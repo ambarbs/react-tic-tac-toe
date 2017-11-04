@@ -5,6 +5,7 @@ import '../Styles/Scorecard.css';
 import '../Styles/DifficultyRadioButtonsGroup.css';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import {store} from '../AppStore';
+import {isBoardEmpty} from '../boardProcessor';
 import Button from 'material-ui/Button';
 import Replay from 'material-ui-icons/Replay';
 import Undo from 'material-ui-icons/Undo';
@@ -51,10 +52,13 @@ class Score extends Component {
 export default class Scorecard extends Component {
     constructor() {
         super();
-        this.state = {hasWon: false, difficultyLevel: false};
+        this.state = {hasWon: false, difficultyLevel: false, disableButtons: true};
         this.restartGame = this.restartGame.bind(this);
         this.undoMove = this.undoMove.bind(this);
-        this.onToggle = this.onToggle.bind(this);
+        store.subscribe(() => {
+            const {boardMatrix} = store.getState().boardReducer;
+            this.setState({disableButtons: isBoardEmpty(boardMatrix)});
+        });
     }
 
     restartGame() {
@@ -102,29 +106,20 @@ export default class Scorecard extends Component {
         });
     }
 
-    onToggle() {
-        const nextToggleValue = !this.state.difficultyLevel;
-        this.setState({difficultyLevel: nextToggleValue});
-        store.dispatch({
-            type: 'TOGGLE_DIFFICULTY',
-            payload: nextToggleValue,
-        });
-    }
-
     render() {
         return (
             <div className='container'>
                 <div className='row'>
                     <div className='col-6 reset-button'>
                         <Tooltip id="tooltip-undo" title="Undo" placement="bottom">
-                            <Button dense color="default" aria-label="add" onClick={this.undoMove}>
+                            <Button dense color="default" disabled={this.state.disableButtons} onClick={this.undoMove}>
                                 <Undo/>
                             </Button>
                         </Tooltip>
                     </div>
                     <div className='col-6 row reset-button'>
                         <Tooltip id="tooltip-restart" title="Restart" placement="bottom">
-                            <Button dense color="default" aria-label="add" onClick={this.restartGame}>
+                            <Button dense color="default" disabled={this.state.disableButtons} onClick={this.restartGame}>
                                 <Replay/>
                             </Button>
                         </Tooltip>

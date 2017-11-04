@@ -1,3 +1,5 @@
+import compact from 'lodash.compact';
+
 const player = 'o', opponent = 'x';
 
 // This function returns true if there are moves
@@ -222,7 +224,7 @@ export function isWin(board, currentSymbol) {
     return isWin;
 }
 
-export function isDraw(board, currentSymbol) {
+export function isDraw(board) {
     for (let i = 0; i < 3; i++) {
         if (board[i].length < 3) {
             return false;
@@ -231,6 +233,15 @@ export function isDraw(board, currentSymbol) {
             if (board[i][j] === undefined) {
                 return false
             }
+        }
+    }
+    return true;
+}
+
+export function isBoardEmpty(board) {
+    for (let i = 0; i < 3; i++) {
+        if(compact(board[i]).length > 0){
+            return false;
         }
     }
     return true;
