@@ -51,7 +51,8 @@ class Box extends Component {
             });
 
             boardMatrix[this.props.rowIndex][this.props.colIndex] = addSymbolToBoardMatrix;
-            this.updateWinCounter(boardMatrix, addSymbolToBoardMatrix);
+            if(this.updateWinCounter(boardMatrix, addSymbolToBoardMatrix))
+                return;
 
             // update board matrix with human player's move
             store.dispatch({
@@ -128,7 +129,9 @@ class Box extends Component {
                 type: 'UPDATE_WIN_COUNT',
                 payload: winCount,
             });
+            return true;
         }
+        return false;
     }
 
     getSymbol() {
