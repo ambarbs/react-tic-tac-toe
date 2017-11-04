@@ -20,7 +20,7 @@ const styles = theme => ({
 
 class DifficultyRadioButtonsGroup extends React.Component {
     state = {
-        selectedValue: 'Easy',
+        selectedValue: 'Medium',
     };
 
     handleChange = event => {

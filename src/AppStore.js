@@ -7,7 +7,7 @@ const boardReducer = (state = {
     boardMatrix: [[], [], []],
     minimax: {row: 0, col: 0},
     winCount: {x: 0, o: 0, d: 0},
-    difficultyLevel: 'Easy',
+    difficultyLevel: 'Medium',
     showEndGameAlert: false,
 
 }, action) => {
