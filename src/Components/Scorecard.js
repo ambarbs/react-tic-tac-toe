@@ -9,7 +9,7 @@ import Button from 'material-ui/Button';
 import Replay from 'material-ui-icons/Replay';
 import DifficultyRadioButtonsGroup from './DifficultyRadioButtonsGroup';
 
-export class Player extends Component {
+class Score extends Component {
     constructor(props) {
         super(props);
         this.state = {playerName: this.props.playerName || 'You', showTextField: false};
@@ -88,9 +88,9 @@ export default class Scorecard extends Component {
                 </div>
                 <DifficultyRadioButtonsGroup/>
                 <div>
-                    <Player playerSymbol='x'/>
-                    <Player playerName='Computer' playerSymbol='o'/>
-                    <Player playerName='Draw' playerSymbol='d'/>
+                    <Score playerSymbol='x'/>
+                    <Score playerName='Computer' playerSymbol='o'/>
+                    <Score playerName='Draw' playerSymbol='d'/>
                 </div>
             </div>
 

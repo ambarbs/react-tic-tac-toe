@@ -1,9 +1,8 @@
 .player{
     text-align: left;
     font-family: "Comic Sans MS";
-    /*margin-bottom: 10px;*/
-    font-size: 1em;
     font-weight: bold;
+    font-size: large;
     margin-bottom: 14vh;
 }
 
@@ -17,12 +16,8 @@
 
 @media only screen and (max-width: 360px) {
     .player{
-        text-align: left;
-        font-family: "Comic Sans MS";
         margin-bottom: 3vh;
         font-size: 1em;
-        font-weight: bold;
-        /*margin-bottom: 14vh;*/
     }
 
     .reset-button{
