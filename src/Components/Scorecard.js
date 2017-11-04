@@ -7,6 +7,8 @@ import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import {store} from '../AppStore';
 import Button from 'material-ui/Button';
 import Replay from 'material-ui-icons/Replay';
+import Undo from 'material-ui-icons/Undo';
+import Tooltip from 'material-ui/Tooltip';
 import DifficultyRadioButtonsGroup from './DifficultyRadioButtonsGroup';
 
 class Score extends Component {
@@ -51,10 +53,16 @@ export default class Scorecard extends Component {
         super();
         this.state = {hasWon: false, difficultyLevel: false};
         this.restartGame = this.restartGame.bind(this);
+        this.undoMove = this.undoMove.bind(this);
         this.onToggle = this.onToggle.bind(this);
     }
 
     restartGame() {
+        console.log('restart')
+        store.dispatch({
+            type: 'UPDATE_BOARD_MATRICES',
+            payload: [],
+        });
         store.dispatch({
             type: 'UPDATE_BOARD_MATRIX',
             payload: [[], [], []],
@@ -66,6 +74,31 @@ export default class Scorecard extends Component {
         store.dispatch({
             type: 'SHOW_END_GAME_ALERT',
             payload: false,
+        });
+    }
+
+    undoMove() {
+        let {boardMatrices} = store.getState().boardReducer;
+        let boardMatrix = [[], [], []];
+
+        // if(boardMatrices.length === 0){
+        //     return;
+        // }
+        //
+        if (boardMatrices.length <= 2) {
+            boardMatrices = [];
+        } else {
+            boardMatrices.splice(-2);
+            boardMatrix = boardMatrices[boardMatrices.length - 1];
+        }
+
+        store.dispatch({
+            type: 'UPDATE_BOARD_MATRIX',
+            payload: boardMatrix,
+        });
+        store.dispatch({
+            type: 'UPDATE_BOARD_MATRICES',
+            payload: boardMatrices,
         });
     }
 
@@ -81,10 +114,21 @@ export default class Scorecard extends Component {
     render() {
         return (
             <div className='container'>
-                <div className='row reset-button'>
-                    <Button dense color="default" aria-label="add" onClick={this.restartGame}>
-                        <Replay/>
-                    </Button>
+                <div className='row'>
+                    <div className='col-6 reset-button'>
+                        <Tooltip id="tooltip-undo" title="Undo" placement="bottom">
+                            <Button dense color="default" aria-label="add" onClick={this.undoMove}>
+                                <Undo/>
+                            </Button>
+                        </Tooltip>
+                    </div>
+                    <div className='col-6 row reset-button'>
+                        <Tooltip id="tooltip-restart" title="Restart" placement="bottom">
+                            <Button dense color="default" aria-label="add" onClick={this.restartGame}>
+                                <Replay/>
+                            </Button>
+                        </Tooltip>
+                    </div>
                 </div>
                 <DifficultyRadioButtonsGroup/>
                 <div>

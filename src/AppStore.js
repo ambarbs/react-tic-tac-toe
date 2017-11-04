@@ -3,6 +3,7 @@ import {createLogger} from 'redux-logger';
 
 const boardReducer = (state = {
     isFirstPlayer: false,
+    boardMatrices: [],
     boardMatrix: [[], [], []],
     minimax: {row: 0, col: 0},
     winCount: {x: 0, o: 0, d: 0},
@@ -22,6 +23,7 @@ const boardReducer = (state = {
             state = {
                 ...state,
                 boardMatrix: action.payload,
+                boardMatrices: [...state.boardMatrices, JSON.parse(JSON.stringify(action.payload))],
             };
             break;
         case 'UPDATE_MINIMAX':
@@ -46,6 +48,12 @@ const boardReducer = (state = {
             state = {
                 ...state,
                 showEndGameAlert: action.payload,
+            };
+            break;
+        case 'UPDATE_BOARD_MATRICES':
+            state = {
+                ...state,
+                boardMatrices: action.payload,
             };
             break;
     }
