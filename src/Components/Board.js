@@ -84,7 +84,6 @@ class Box extends Component {
         } else if (difficultyLevel === 'Hard') {
             moveFunction = findBestMove;
         }
-        console.log(moveFunction.name)
         const move = moveFunction(boardMatrix);
 
         if (move.col === -1 || move.row === -1)

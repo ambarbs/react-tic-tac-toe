@@ -62,7 +62,6 @@ export default class Scorecard extends Component {
     }
 
     restartGame() {
-        console.log('restart')
         store.dispatch({
             type: 'UPDATE_BOARD_MATRICES',
             payload: [],
